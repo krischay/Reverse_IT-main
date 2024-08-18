@@ -1,26 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarMovement : MonoBehaviour
 {
-    public float speed = 10f;          // Speed of the car
-    public float turnSpeed = 50f;      // Turning speed of the car
-    private void Update()
-    {
-        // Get input for movement
-        float moveDirection = Input.GetAxis("Vertical");   // W/S or Up/Down arrow keys
-        float turnDirection = Input.GetAxis("Horizontal"); // A/D or Left/Right arrow keys
+    public float speed = 10f;
+    public float turnSpeed = 50f;
 
-        // Move the car forward/backward
+    private Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        float moveDirection = Input.GetAxis("Vertical");
+        float turnDirection = Input.GetAxis("Horizontal");
+
         if (moveDirection != 0)
         {
-            // Only move and turn when there is forward or backward movement
-            transform.Translate(Vector3.forward * moveDirection * speed * Time.deltaTime);
-
-            // Turn the car left/right
-            transform.Rotate(Vector3.up, turnDirection * turnSpeed * Time.deltaTime);
+            rb.velocity = transform.forward * moveDirection * speed;
+            rb.angularVelocity = Vector3.up * turnDirection * turnSpeed;
         }
     }
 }
-
